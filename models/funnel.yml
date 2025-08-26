@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: funnel
+    description: "Modelo de funil integrando ads, leads e oportunidades"
+    columns:
+      - name: client_id
+        description: "Identificador do cliente"
+      - name: date
+        description: "Data consolidada do evento"
+      - name: impressions
+        description: "Impressões dos anúncios"
+      - name: clicks
+        description: "Cliques dos anúncios"
+      - name: spend
+        description: "Investimento em anúncios"
+      - name: leads
+        description: "Quantidade de leads"
+      - name: opportunities
+        description: "Quantidade de oportunidades"
+      - name: expected_revenue
+        description: "Receita esperada ponderada pela probabilidade"
