@@ -1,0 +1,7 @@
+name: 'meu_dbt'
+version: '1.0'
+profile: 'meu_dbt'
+
+models:
+  meu_dbt:
+    +materialized: view
