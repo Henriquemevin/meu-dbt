@@ -20,3 +20,44 @@ models:
         description: "Quantidade de oportunidades"
       - name: expected_revenue
         description: "Receita esperada ponderada pela probabilidade"
+
+    metrics:
+      - name: total_impressions
+        label: "Total de Impressões"
+        type: sum
+        sql: impressions
+
+      - name: total_clicks
+        label: "Total de Cliques"
+        type: sum
+        sql: clicks
+
+      - name: total_spend
+        label: "Investimento Total"
+        type: sum
+        sql: spend
+
+      - name: total_leads
+        label: "Total de Leads"
+        type: sum
+        sql: leads
+
+      - name: total_opportunities
+        label: "Total de Oportunidades"
+        type: sum
+        sql: opportunities
+
+      - name: total_expected_revenue
+        label: "Receita Esperada"
+        type: sum
+        sql: expected_revenue
+
+      - name: ctr
+        label: "CTR (%)"
+        type: number
+        sql: "CASE WHEN SUM(impressions) > 0 THEN 100.0 * SUM(clicks) / SUM(impressions) ELSE 0 END"
+
+      - name: cpl
+        label: "Custo por Lead"
+        type: number
+        sql: "CASE WHEN SUM(leads) > 0 THEN SUM(spend) / SUM(leads) ELSE 0 END"
