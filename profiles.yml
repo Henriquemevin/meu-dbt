@@ -1,11 +1,14 @@
 meu_dbt:
-  target: dev
+  target: prod
   outputs:
-    dev:
+    prod:
       type: postgres
-      host: 109.199.120.203   # seu host externo
+      host: 109.199.120.203
+      port: 5432
       user: analytics_user
       password: 6F36B97AB888C4AB92D9837FFFD7F
-      port: 5432
       dbname: analytics
       schema: public
+      threads: 4
+      sslmode: disable        # <- chave para não usar SSL
+      keepalives_idle: 0
