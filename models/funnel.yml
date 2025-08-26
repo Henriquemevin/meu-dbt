@@ -2,46 +2,80 @@ version: 2
 
 models:
   - name: funnel
-    description: "Funil de marketing e vendas"
+    description: "Modelo de funil integrando ads, leads e oportunidades"
+
     columns:
+      - name: client_id
+        label: "Cliente"
+        description: "Identificador do cliente"
+
       - name: date
         label: "Data"
-        description: "Data do evento"
-      - name: leads
-        label: "Leads"
-        description: "Número de leads gerados"
-      - name: opportunities
-        label: "Oportunidades"
-        description: "Oportunidades abertas"
+        description: "Data consolidada do evento"
+
+      - name: impressions
+        label: "Impressões"
+        description: "Impressões dos anúncios"
+
+      - name: clicks
+        label: "Cliques"
+        description: "Cliques dos anúncios"
+
       - name: spend
         label: "Investimento (R$)"
         description: "Valor investido em anúncios"
+
+      - name: leads
+        label: "Leads"
+        description: "Quantidade de leads"
+
+      - name: opportunities
+        label: "Oportunidades"
+        description: "Quantidade de oportunidades"
+
       - name: expected_revenue
         label: "Receita Esperada"
         description: "Receita ponderada pela probabilidade"
 
-metrics:
-  - name: total_spend
-    label: "Investimento Total"
-    type: sum
-    sql: spend
+    meta:
+      metrics:
+        - name: total_impressions
+          label: "Total de Impressões"
+          type: sum
+          sql: impressions
 
-  - name: total_leads
-    label: "Total de Leads"
-    type: sum
-    sql: leads
+        - name: total_clicks
+          label: "Total de Cliques"
+          type: sum
+          sql: clicks
 
-  - name: total_opportunities
-    label: "Total de Oportunidades"
-    type: sum
-    sql: opportunities
+        - name: total_spend
+          label: "Investimento Total"
+          type: sum
+          sql: spend
 
-  - name: total_expected_revenue
-    label: "Receita Esperada"
-    type: sum
-    sql: expected_revenue
+        - name: total_leads
+          label: "Total de Leads"
+          type: sum
+          sql: leads
 
-  - name: cpl
-    label: "Custo por Lead (CPL)"
-    type: expression
-    sql: "total_spend / NULLIF(total_leads,0)"
+        - name: total_opportunities
+          label: "Total de Oportunidades"
+          type: sum
+          sql: opportunities
+
+        - name: total_expected_revenue
+          label: "Receita Esperada"
+          type: sum
+          sql: expected_revenue
+
+        # métricas derivadas (expressões)
+        - name: ctr
+          label: "CTR (%)"
+          type: number
+          sql: "CASE WHEN SUM(impressions) > 0 THEN 100.0 * SUM(clicks) / SUM(impressions) ELSE 0 END"
+
+        - name: cpl
+          label: "Custo por Lead (CPL)"
+          type: number
+          sql: "CASE WHEN SUM(leads) > 0 THEN SUM(spend) / SUM(leads) ELSE 0 END"
