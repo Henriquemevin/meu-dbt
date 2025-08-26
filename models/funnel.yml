@@ -2,62 +2,46 @@ version: 2
 
 models:
   - name: funnel
-    description: "Modelo de funil integrando ads, leads e oportunidades"
+    description: "Funil de marketing e vendas"
     columns:
-      - name: client_id
-        description: "Identificador do cliente"
       - name: date
-        description: "Data consolidada do evento"
-      - name: impressions
-        description: "Impressões dos anúncios"
-      - name: clicks
-        description: "Cliques dos anúncios"
-      - name: spend
-        description: "Investimento em anúncios"
+        label: "Data"
+        description: "Data do evento"
       - name: leads
-        description: "Quantidade de leads"
+        label: "Leads"
+        description: "Número de leads gerados"
       - name: opportunities
-        description: "Quantidade de oportunidades"
+        label: "Oportunidades"
+        description: "Oportunidades abertas"
+      - name: spend
+        label: "Investimento (R$)"
+        description: "Valor investido em anúncios"
       - name: expected_revenue
-        description: "Receita esperada ponderada pela probabilidade"
-
-    metrics:
-      - name: total_impressions
-        label: "Total de Impressões"
-        type: sum
-        sql: impressions
-
-      - name: total_clicks
-        label: "Total de Cliques"
-        type: sum
-        sql: clicks
-
-      - name: total_spend
-        label: "Investimento Total"
-        type: sum
-        sql: spend
-
-      - name: total_leads
-        label: "Total de Leads"
-        type: sum
-        sql: leads
-
-      - name: total_opportunities
-        label: "Total de Oportunidades"
-        type: sum
-        sql: opportunities
-
-      - name: total_expected_revenue
         label: "Receita Esperada"
-        type: sum
-        sql: expected_revenue
+        description: "Receita ponderada pela probabilidade"
 
-      - name: ctr
-        label: "CTR (%)"
-        type: number
-        sql: "CASE WHEN SUM(impressions) > 0 THEN 100.0 * SUM(clicks) / SUM(impressions) ELSE 0 END"
+metrics:
+  - name: total_spend
+    label: "Investimento Total"
+    type: sum
+    sql: spend
 
-      - name: cpl
-        label: "Custo por Lead"
-        type: number
-        sql: "CASE WHEN SUM(leads) > 0 THEN SUM(spend) / SUM(leads) ELSE 0 END"
+  - name: total_leads
+    label: "Total de Leads"
+    type: sum
+    sql: leads
+
+  - name: total_opportunities
+    label: "Total de Oportunidades"
+    type: sum
+    sql: opportunities
+
+  - name: total_expected_revenue
+    label: "Receita Esperada"
+    type: sum
+    sql: expected_revenue
+
+  - name: cpl
+    label: "Custo por Lead (CPL)"
+    type: expression
+    sql: "total_spend / NULLIF(total_leads,0)"
