@@ -1,0 +1,11 @@
+meu_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: 109.199.120.203   # seu host externo
+      user: analytics_user
+      password: 6F36B97AB888C4AB92D9837FFFD7F
+      port: 5432
+      dbname: analytics
+      schema: public
